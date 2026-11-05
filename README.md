@@ -306,3 +306,10 @@ If you fetch specific field then only then scalar() fetch first record and first
         dataList = result.first()
         print(dataList[0].course_name)
    ```
+2. It return first row values in tuple that you have written in code
+   ```
+        stmt = select(CourseMaster.course_name,CourseMaster.id) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.first()
+        print(dataList[0])
+   ```
