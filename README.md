@@ -1,14 +1,203 @@
+# Example of Code
 
-# scalars()
 ```
-1. Without .scalars() (session.execute(stmt)):
-SQLAlchemy will return a result structured like this:
-[(<User object at 0x1...>,), (<User object at 0x2...>,)]
-Note: Here, each User object is wrapped inside a tuple ( ).
-If you want to access the first user object, you would have to write result[0][0], which is quite awkward and inconvenient.
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlalchemy.orm import DeclarativeBase
+from fastapi import Depends
+from typing import AsyncGenerator, Annotated
+from sqlalchemy.ext.asyncio import AsyncAttrs
+from decouple import config
 
-2. With .scalars() (session.execute(stmt).scalars()):
-This removes the outer envelope (wrapper) of the tuple and directly gives you a list of the objects:
-[<User object at 0x1...>, <User object at 0x2...>]
-Now, you can directly use result[0] to access the first user object.
-```
+from sqlalchemy import (BigInteger,Column,PrimaryKeyConstraint,Text,String,Integer,DateTime,
+BigInteger,SmallInteger,func,UniqueConstraint,ForeignKey,Identity)
+from datetime import datetime
+from sqlalchemy.orm import Mapped, declarative_base, mapped_column
+from sqlalchemy.orm.base import Mapped
+from app.config.dbconnection import Base
+
+from fastapi import FastAPI,Depends, HTTPException, Response, Request
+
+from app.lifespans.lifespan import lifespan_check
+
+from fastapi.responses import JSONResponse
+
+from pydantic import BaseModel, ConfigDict, Field, EmailStr, AfterValidator, BeforeValidator
+from typing import Optional, Annotated
+from fastapi import status
+
+from sqlalchemy import select
+from datetime import date
+from datetime import datetime
+from fastapi import APIRouter,Depends,status,Path
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
+
+from typing import Annotated
+from sqlalchemy.orm import Session
+from sqlalchemy import (select,insert,update,delete,join,and_, or_ )
+from pydantic import (BaseModel,Field, model_validator, EmailStr, ModelWrapValidatorHandler, ValidationError, AfterValidator,BeforeValidator,PlainValidator, ValidatorFunctionWrapHandler)
+from typing import Optional, Annotated
+
+PROJECT_NAME = config("PROJECT_NAME", default='', cast=str)
+DEBUG = config("DEBUG", default=False, cast=bool)
+DB_DRIVER = config("DB_DRIVER", default='mysql+aiomysql', cast=str)
+DB_HOST = config("DB_HOST", default='localhost', cast=str)
+DB_NAME = config("DB_NAME", default='fastapi_crud_1', cast=str)
+DB_USER = config("DB_USER", default='root', cast=str)
+DB_PASSWORD = config("DB_PASSWORD", default='123456789', cast=str)
+DB_PORT = config("DB_PORT", default='3306', cast=str)
+DATABASE_URL = f"{DB_DRIVER}://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}?charset=utf8mb4"
+
+engine = create_async_engine(DATABASE_URL, echo=True, future=True)
+
+async_session = async_sessionmaker(bind=engine, expire_on_commit=False)
+
+class Base(AsyncAttrs, DeclarativeBase):
+  pass
+
+async def get_session():
+    async with async_session() as session:
+        yield session
+
+SessionDep = Annotated[AsyncSession, Depends(get_session)]
+
+
+class CourseGroupMaster(Base):
+    __tablename__ = 'course_group_master'
+    # use Mapped[ python datatype ] 
+    # server_default used for mysql server 
+    # default attribute use if you want python calculation
+    id: Mapped[int] = mapped_column('id',BigInteger, primary_key=True, autoincrement=True, nullable=False)
+    course_group_code: Mapped[str] = mapped_column('course_group_code',String(255),nullable=True)
+    course_group_name: Mapped[str] = mapped_column('course_group_name',String(255),nullable=True)
+    status: Mapped[int] = mapped_column('status',SmallInteger,nullable=True,server_default='1',comment="1=Active,0=Inactive")
+    created_at: Mapped[datetime] = mapped_column('created_at',DateTime, nullable=True, server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column('updated_at',DateTime,nullable=True)
+    created_by: Mapped[int] = mapped_column('created_by',BigInteger,nullable=True)
+    updated_by: Mapped[int] = mapped_column('updated_by',BigInteger,nullable=True)
+
+
+class CourseMaster(Base):
+    __tablename__ = 'course_master'
+    # use Mapped[ python datatype ] 
+    # server_default used for mysql server 
+    # default attribute use if you want python calculation
+    id: Mapped[int] = mapped_column('id',BigInteger, primary_key=True, autoincrement=True, nullable=False)
+    course_code: Mapped[str] = mapped_column('course_code',String(50),nullable=True)
+    course_group_id: Mapped[int] = mapped_column('course_group_id',BigInteger,nullable=True)
+    course_name: Mapped[str] = mapped_column('course_name',String(255),nullable=True)
+    status: Mapped[int] = mapped_column('status',SmallInteger,nullable=True,server_default='1',comment="A=Active,I=Inactive")
+    created_at: Mapped[datetime] = mapped_column('created_at',DateTime, nullable=True, server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column('updated_at',DateTime,nullable=True)
+    created_by: Mapped[int] = mapped_column('created_by',BigInteger,nullable=True)
+    updated_by: Mapped[int] = mapped_column('updated_by',BigInteger,nullable=True)
+    repository_course_status: Mapped[int] = mapped_column('repository_course_status',SmallInteger,nullable=True,server_default='1',comment="1=Active,0=Inactive")
+
+
+app = FastAPI(
+    lifespan=lifespan_check,
+    debug=DEBUG, # False on production
+    title=PROJECT_NAME,
+    summary="This is a very simple crud application",
+    description="This is very simple curd aplication",
+    version="0.1.0",
+    openapi_url="/simple_crud_openapi.json",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    default_response_class=JSONResponse
+)
+
+
+def error_responses():
+    common_responses = {
+        400: {"description": "Bad Request"},
+        404: {"description": "Not Found"},
+        422: {"description": "Validation Error"},
+    }
+    return common_responses
+
+class CustomeAPIException(Exception):
+    def __init__(self, status_code: int | None = 422, status: bool|None = False, message: str | None = None, data: list = None):
+        self.status_code = status_code
+        self.status = status
+        self.message = message
+        self.data = data
+
+async def custom_api_exception_handler(request: Request, exc: CustomeAPIException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "status_code": exc.status_code,
+            "status": exc.status,
+            "message": exc.message,
+            "data": exc.data
+        }
+    )
+
+
+class Datacheck:
+    @classmethod
+    def datetime_format(cls, value: str) -> Optional[str]:
+        if value is None or value == "":
+            return ""
+            
+        # Convert incoming SQLAlchemy datetime objects to custom string format
+        if isinstance(value, datetime):
+            return value.strftime("%d-%m-%Y %H:%M:%S")
+           
+        return str(value)
+    
+DateFormat = Annotated[Optional[str], BeforeValidator(Datacheck.datetime_format), Field(examples=["2025-03-26 22:33:59", "2025-04-23 22:33:59"])]
+
+
+class CourseOut(BaseModel):
+    id: int = Field(..., examples=[5])
+    course_name: str = Field(..., examples=['Python'])
+    course_code: Optional[str] = None
+    course_group_id: Optional[int] = None
+    status: str = Field(..., examples=['A','I'])
+    created_at: DateFormat = ""
+    updated_at: DateFormat = ""
+    created_by: Optional[int] = None
+    updated_by: Optional[int] = None
+    repository_course_status: int = Field(..., examples=[1])
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+
+class CourseRes(BaseModel):
+    status_code: int
+    message: str
+    status: bool
+    data: list[CourseOut]
+
+
+app.add_exception_handler(CustomeAPIException, custom_api_exception_handler)
+
+
+router = APIRouter()
+
+@router.get(
+        "/course-list",
+        #response_model=CourseRes,
+        responses=error_responses(),
+        name="courselist"
+        )
+async def course_list(
+    session: SessionDep,
+    courseGroupId: Optional[int] = None
+    ):
+    try:
+        stmt = select(CourseMaster) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.all()
+        #print(dataList[0][0].course_name)
+        print(dataList)
+
+    except Exception as e:
+        return f"exception {e}"
+
+app.include_router(router)
+
+'''
