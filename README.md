@@ -276,3 +276,6 @@ If you fetch specific field then only then scalar() fetch first record and first
         dataList = result.scalar()
         print(dataList)
 ```
+
+# scalars().all() and scalars().fetchall()
+1. both are work same
