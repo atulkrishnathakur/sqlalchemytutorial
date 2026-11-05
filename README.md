@@ -250,4 +250,11 @@ To get data, write code like below
         dataList = result.scalars().all()
         print(dataList[0].course_name)
 ```
-
+# use scalars().all() to select specific field
+```
+        stmt = select(CourseMaster.course_name, CourseMaster.id) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.scalars().all()
+        print(dataList[0])
+```
+Here it will print only course name not id because scalar fetch only one field value if you want to fetch specific field data
