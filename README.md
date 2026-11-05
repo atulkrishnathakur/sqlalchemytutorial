@@ -350,7 +350,7 @@ If you fetch specific field then only then scalar() fetch first record and first
 
 # mappings().all()
 1. result.mappings() converts query result in dictionary in key-value pairs
-2. mappings().all() fetch data in object in dictionary in list
+2. mappings().all() fetch all data in object in dictionary in list
    ```
         stmt = select(CourseMaster) # it create the sql query
         result = await session.execute(stmt) # execute() run the sql query on the connected database
@@ -374,3 +374,21 @@ If you fetch specific field then only then scalar() fetch first record and first
 
 # mappings().all() and mappings().fetchall()
 1. both are same
+
+
+# mappings().first()
+1. result.mappings() converts query result in dictionary in key-value pairs
+2. mappings().all() fetch first row data in object in dictionary in list
+```
+      stmt = select(CourseMaster) # it create the sql query
+      result = await session.execute(stmt) # execute() run the sql query on the connected database
+      dataList = result.mappings().first()
+      print(dataList['CourseMaster'].course_name)
+```
+3. mappings().all() fetch first row specific data in dictionary
+   ```
+        stmt = select(CourseMaster.id, CourseMaster.course_name) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.mappings().first()
+        print(dataList['course_name'])
+   ```
