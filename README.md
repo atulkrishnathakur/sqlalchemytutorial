@@ -214,7 +214,7 @@ all() print objects in tuple in list. output of code is below
 ```
 [(<app.sqlalchemy.CourseMaster object at 0x7681ae7fc6e0>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae7c91d0>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae7c9090>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae9129e0>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae912b10>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae7b8dd0>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae936030>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae935f20>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae7c6150>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae7c6050>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae7d2e40>,)]
 ```
-To fetch data need to write
+To get data, write code like below
 ```
         stmt = select(CourseMaster) # it create the sql query
         result = await session.execute(stmt) # execute() run the sql query on the connected database
