@@ -435,3 +435,13 @@ If you fetch specific field then only then scalar() fetch first record and first
             ) 
    ```
 
+# or_()
+1. or_() function used for `OR` operator
+   ```
+        stmt = select(CourseMaster).where(
+            or_(
+                CourseMaster.course_name == 'C',
+                CourseMaster.course_name == 'A'
+                )
+            )
+   ```
