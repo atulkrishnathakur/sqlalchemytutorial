@@ -258,3 +258,21 @@ To get data, write code like below
         print(dataList[0])
 ```
 Here it will print only course name not id because scalar fetch only one field value if you want to fetch specific field data
+
+
+# scalar()
+do not use all() with scalar() because scalar() fetch only first record as object
+```
+        stmt = select(CourseMaster) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.scalar()
+        print(dataList.course_name)
+```
+
+If you fetch specific field then only then scalar() fetch first record and first field of object that you have written in code.
+```
+        stmt = select(CourseMaster.course_name, CourseMaster.id) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.scalar()
+        print(dataList)
+```
