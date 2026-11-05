@@ -283,7 +283,7 @@ If you fetch specific field then only then scalar() fetch first record and first
 
 # scalars().fetchmany(size=...)
 1. If you have millions of data then fetchall() and all() will not use because it load all data in ram and system will crash
-2. You can use scalars().fetchmany(size=...) to fetch data in chunk
+2. You can use scalars().fetchmany(size=...) to fetch row data in objects in chunk in list
    ```
         stmt = select(CourseMaster) # it create the sql query
         result = await session.execute(stmt) # execute() run the sql query on the connected database
@@ -297,6 +297,23 @@ If you fetch specific field then only then scalar() fetch first record and first
                 print(course.course_name)
 
    ```
+# fetchmany(size=...)
+1. If you have millions of data then fetchall() and all() will not use because it load all data in ram and system will crash
+2. You can use fetchmany(size=...) to fetch row objects in tuple in chunk
+   ```
+        stmt = select(CourseMaster) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        while True:
+            chunk = result.fetchmany(size=2)
+            
+            if not chunk:
+                break  # Agar data khatam ho jaye toh loop rok do
+                
+            for course in chunk:
+                print(course[0].course_name)
+
+   ```
+
 
 # first()
 1. It return first row in object in tuple
