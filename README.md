@@ -392,3 +392,20 @@ If you fetch specific field then only then scalar() fetch first record and first
         dataList = result.mappings().first()
         print(dataList['course_name'])
    ```
+
+# mappings().fetchmany(size=...)
+1. If you have millions of data then fetchall() and all() will not use because it load all data in ram and system will crash
+2. You can use mappings().fetchmany(size=...) to fetch row data in objects id dictionary in chunk in list
+   ```
+     stmt = select(CourseMaster) # it create the sql query
+     result = await session.execute(stmt) # execute() run the sql query on the connected database
+     while True:
+         chunk = result.mappings().fetchmany(size=2)
+         
+         if not chunk:
+             break  # Agar data khatam ho jaye toh loop rok do
+             
+         for course in chunk:
+             print(course['CourseMaster'].course_name)
+
+   ```
