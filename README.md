@@ -1,4 +1,4 @@
-# Example of Code
+# Example of Code for SELECT
 
 ```
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
@@ -210,7 +210,7 @@ app.include_router(router)
         dataList = result.all()
         print(dataList)
 ```
-all() print objects in tuple in list. output of code is below
+If you use only all() then object will be come in tuple in list. output of code is below
 ```
 [(<app.sqlalchemy.CourseMaster object at 0x7681ae7fc6e0>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae7c91d0>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae7c9090>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae9129e0>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae912b10>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae7b8dd0>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae936030>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae935f20>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae7c6150>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae7c6050>,), (<app.sqlalchemy.CourseMaster object at 0x7681ae7d2e40>,)]
 ```
@@ -222,7 +222,7 @@ To get data, write code like below
         print(dataList[0][0].course_name)
 ```
 
-# all()
+# scalars().all()
 1. code
 ```
         stmt = select(CourseMaster) # it create the sql query
@@ -231,7 +231,15 @@ To get data, write code like below
         print(dataList)
 ```
 
-all() print objects in tuple in list. output of code is below
+If you use scalars().all() then objects will be come in list. output of code is below
 ```
 [<app.sqlalchemy.CourseMaster object at 0x70a5dbf006e0>, <app.sqlalchemy.CourseMaster object at 0x70a5dbed1090>, <app.sqlalchemy.CourseMaster object at 0x70a5dbed0f50>, <app.sqlalchemy.CourseMaster object at 0x70a5dc0168b0>, <app.sqlalchemy.CourseMaster object at 0x70a5dc0169e0>, <app.sqlalchemy.CourseMaster object at 0x70a5dbebd010>, <app.sqlalchemy.CourseMaster object at 0x70a5dc039f20>, <app.sqlalchemy.CourseMaster object at 0x70a5dc039e10>, <app.sqlalchemy.CourseMaster object at 0x70a5dbece050>, <app.sqlalchemy.CourseMaster object at 0x70a5dbecdf50>, <app.sqlalchemy.CourseMaster object at 0x70a5dbedae40>]
 ```
+To get data, write code like below
+```
+        stmt = select(CourseMaster) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.scalars().all()
+        print(dataList[0].course_name)
+```
+
