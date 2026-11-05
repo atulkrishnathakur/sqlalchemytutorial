@@ -347,3 +347,23 @@ If you fetch specific field then only then scalar() fetch first record and first
         dataList = result.scalars().first()
         print(dataList)
    ```
+
+# mappings().all()
+1. result.mappings() converts query result in dictionary in key-value pairs
+2. mappings().all() fetch data in object in dictionary in list
+   ```
+        stmt = select(CourseMaster) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.mappings().all()
+        print(dataList[0]['CourseMaster'].course_name)
+   ```
+
+# use mappings().all() to select specific field
+1. result.mappings() converts query result in dictionary in key-value pairs
+2. mappings().all() fetch data in object in dictionary in list for all specific field
+   ```
+        stmt = select(CourseMaster.course_name, CourseMaster.id) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.mappings().all()
+        print(dataList)
+   ``` 
