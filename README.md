@@ -419,4 +419,14 @@ If you fetch specific field then only then scalar() fetch first record and first
    ```
     stmt = select(CourseMaster).where(CourseMaster.course_name == 'C', CourseMaster.course_name == 'A')
    ```
+# and_() 
+1. and_() function used for and operator
+   ```
+       stmt = select(CourseMaster).where(
+            and_(
+                CourseMaster.course_name == 'C',
+                CourseMaster.course_name == 'A'
+                )
+            ) 
+   ```
 
