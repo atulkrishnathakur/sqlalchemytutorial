@@ -297,3 +297,12 @@ If you fetch specific field then only then scalar() fetch first record and first
                 print(course.course_name)
 
    ```
+
+# first()
+1. It return first row in object in tuple
+   ```
+        stmt = select(CourseMaster) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.first()
+        print(dataList[0].course_name)
+   ```
