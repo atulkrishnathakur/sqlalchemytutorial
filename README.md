@@ -409,3 +409,14 @@ If you fetch specific field then only then scalar() fetch first record and first
              print(course['CourseMaster'].course_name)
 
    ```
+
+# where clause
+1. For where() used for where clause
+   ```
+    stmt = select(CourseMaster).where(CourseMaster.course_name == 'C')
+   ```
+   and operator ke sath
+   ```
+    stmt = select(CourseMaster).where(CourseMaster.course_name == 'C', CourseMaster.course_name == 'A')
+   ```
+
