@@ -222,6 +222,14 @@ To get data, write code like below
         print(dataList[0][0].course_name)
 ```
 
+# use all() to select specific field
+```
+        stmt = select(CourseMaster.course_name, CourseMaster.id) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.all()
+        print(dataList[0][0])
+```
+
 # scalars().all()
 1. code
 ```
