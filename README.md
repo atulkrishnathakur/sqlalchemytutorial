@@ -415,12 +415,17 @@ If you fetch specific field then only then scalar() fetch first record and first
    ```
     stmt = select(CourseMaster).where(CourseMaster.course_name == 'C')
    ```
-   and operator ke sath
+   With `and` operator
    ```
     stmt = select(CourseMaster).where(CourseMaster.course_name == 'C', CourseMaster.course_name == 'A')
    ```
+   and` operator with where chain
+   ```
+      stmt = select(CourseMaster).where(CourseMaster.course_name == 'C').where(CourseMaster.course_name == 'A')
+   ```
+   
 # and_() 
-1. and_() function used for and operator
+1. and_() function used for `and` operator
    ```
        stmt = select(CourseMaster).where(
             and_(
