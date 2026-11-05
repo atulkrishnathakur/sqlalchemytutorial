@@ -221,3 +221,17 @@ To get data, write code like below
         dataList = result.all()
         print(dataList[0][0].course_name)
 ```
+
+# all()
+1. code
+```
+        stmt = select(CourseMaster) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.scalars().all()
+        print(dataList)
+```
+
+all() print objects in tuple in list. output of code is below
+```
+[<app.sqlalchemy.CourseMaster object at 0x70a5dbf006e0>, <app.sqlalchemy.CourseMaster object at 0x70a5dbed1090>, <app.sqlalchemy.CourseMaster object at 0x70a5dbed0f50>, <app.sqlalchemy.CourseMaster object at 0x70a5dc0168b0>, <app.sqlalchemy.CourseMaster object at 0x70a5dc0169e0>, <app.sqlalchemy.CourseMaster object at 0x70a5dbebd010>, <app.sqlalchemy.CourseMaster object at 0x70a5dc039f20>, <app.sqlalchemy.CourseMaster object at 0x70a5dc039e10>, <app.sqlalchemy.CourseMaster object at 0x70a5dbece050>, <app.sqlalchemy.CourseMaster object at 0x70a5dbecdf50>, <app.sqlalchemy.CourseMaster object at 0x70a5dbedae40>]
+```
