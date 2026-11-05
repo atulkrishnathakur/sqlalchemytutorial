@@ -371,3 +371,6 @@ If you fetch specific field then only then scalar() fetch first record and first
    ```
       [{'course_name': 'C', 'id': 1}, {'course_name': 'HTML', 'id': 2}, {'course_name': 'CSS', 'id': 3}, {'course_name': 'JavaScript', 'id': 4}, {'course_name': 'PHP', 'id': 5}, {'course_name': 'Laravel', 'id': 6}, {'course_name': 'Python', 'id': 7}, {'course_name': 'MySQL', 'id': 8}, {'course_name': 'FastAPI', 'id': 9}, {'course_name':'postgresql', 'id': 10}, {'course_name': 'Docker', 'id': 11}]
    ```
+
+# mappings().all() and mappings().fetchall()
+1. both are same
