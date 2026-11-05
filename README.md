@@ -279,3 +279,21 @@ If you fetch specific field then only then scalar() fetch first record and first
 
 # scalars().all() and scalars().fetchall()
 1. both are work same
+
+
+# scalars().fetchmany(size=...)
+1. If you have millions of data then fetchall() and all() will not use because it load all data in ram and system will crash
+2. You can use scalars().fetchmany(size=...) to fetch data in chunk
+   ```
+        stmt = select(CourseMaster) # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        while True:
+            chunk = result.scalars().fetchmany(size=2)
+            
+            if not chunk:
+                break  # Agar data khatam ho jaye toh loop rok do
+                
+            for course in chunk:
+                print(course.course_name)
+
+   ```
