@@ -465,3 +465,17 @@ If you fetch specific field then only then scalar() fetch first record and first
         CourseMaster.id.notin_([1,2,3])
         ) # it create the sql query
 ```
+# is_(None) for `IS NULL` of sql
+
+```
+stmt = select(CourseMaster).where(
+            CourseMaster.created_at.is_(None)
+            )
+```
+
+# is_(None) and not_() for `IS NOT NULL` of SQL
+```
+stmt = select(CourseMaster).where(
+            not_(CourseMaster.created_at.is_(None))
+            )
+```
