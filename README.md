@@ -566,3 +566,11 @@ stmt = (
         .join(Payment)
     )
    ```
+4. inner join with where clause
+   ```
+    stmt = (
+        select(User)
+        .join(Order)
+        .where(Order.status == 'shipped')
+    )
+   ```
