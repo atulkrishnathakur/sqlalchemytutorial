@@ -512,3 +512,11 @@ stmt = select(CourseMaster).where(
             not_(CourseMaster.course_name.like('%jsc%'))
             )
    ```
+
+# `BETWEEN` operator
+1. The `between()` method used for between 
+```
+        stmt = select(CourseMaster).where(
+            CourseMaster.id.between(2,7)
+            ) # it create the sql query
+```
