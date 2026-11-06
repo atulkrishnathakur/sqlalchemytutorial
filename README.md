@@ -445,6 +445,13 @@ If you fetch specific field then only then scalar() fetch first record and first
                 )
             )
    ```
+# not_()
+1. not_() function used for `NOT` operator
+   ```
+      stmt = select(CourseMaster).where(
+            not_(CourseMaster.status == 'A')
+            ) # it create the sql query
+   ```
 # in_()
 1. in_() function used for `IN` operator
    ```
