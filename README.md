@@ -452,6 +452,12 @@ If you fetch specific field then only then scalar() fetch first record and first
             not_(CourseMaster.status == 'A')
             ) # it create the sql query
    ```
+2. the `tiled(~)` also used for not
+   ```
+      stmt = select(CourseMaster).where(
+            ~(CourseMaster.status == 'A')
+            )
+   ```
 # in_()
 1. in_() function used for `IN` operator
    ```
@@ -479,3 +485,30 @@ stmt = select(CourseMaster).where(
             not_(CourseMaster.created_at.is_(None))
             )
 ```
+
+# `LIKE` operator for searching
+1. The like() method is case-sensitive 
+```
+stmt = select(CourseMaster).where(
+            CourseMaster.course_name.like('%th%')
+            ) 
+```
+2. The ilike() method is a case-insensitive. it will match upper and lower both cases
+```
+stmt = select(CourseMaster).where(
+            CourseMaster.course_name.ilike('%jsc%') # it match jsc or JSC both
+            )
+```
+# `NOT LIKE` operator for searching
+1. The tiled(`~`) used for not
+```
+stmt = select(CourseMaster).where(
+            ~CourseMaster.course_name.like('%jsc%')
+            )
+```
+2. The `not_()` user for not
+   ```
+    stmt = select(CourseMaster).where(
+            not_(CourseMaster.course_name.like('%jsc%'))
+            )
+   ```
