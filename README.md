@@ -520,3 +520,13 @@ stmt = select(CourseMaster).where(
             CourseMaster.id.between(2,7)
             ) # it create the sql query
 ```
+
+# `ORDER BY`
+1. The `order_by()` and `asc()` method used for ascending order 
+   ```
+    stmt = select(CourseMaster).order_by(CourseMaster.id.asc()) 
+   ```
+2. The `order_by()` and `desc()` method used for descending order
+   ```
+   stmt = select(CourseMaster).order_by(CourseMaster.id.desc()) 
+   ```
