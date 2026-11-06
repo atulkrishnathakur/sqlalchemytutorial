@@ -585,3 +585,43 @@ stmt = select(User, Order).outerjoin(Order, User.id == Order.customer_id)
    ```
       stmt = select(User, Order).join(Order, User.id == Order.customer_id, isouter=True)
    ```
+
+# How to run raw sql query. text() function used to run raw query
+1. text() function used to run raw query. with scalars() fetch only first field data in list here id field value will be fetch in list
+   ```
+        stmt = text("select course_name, id from course_master") # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.scalars().all()
+        print(dataList)
+   ```
+2.  text() function used to run raw query. with scalars() fetch only first field data in list here course_name will be fetch
+   ```
+        stmt = text("select * from course_master")
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.scalars().all()
+        print(dataList)
+   ```
+3. text() function used to run raw query. with mappings() fetch all field data in dictionary
+   ```
+        stmt = text("select course_name, id from course_master") 
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.mappings().all()
+        print(dataList)
+   ```
+4. text() function used to run raw query. with mappings() fetch all field data in dictionary
+   ```
+        stmt = text("select * from course_master") # it create the sql query
+        result = await session.execute(stmt) # execute() run the sql query on the connected database
+        dataList = result.mappings().all()
+        print(dataList)
+   ```
+
+# How to run raw sql query and how to handle sql injection. text() function used to run raw query
+1. Use colon(:) placeholder and pass values in dictionary to handle sql injection
+   ```
+        stmt = text("select * from course_master where id > :min_id and status = :course_status ") # it create the sql query
+        result = await session.execute(stmt, {"min_id": 2, "course_status": 'A'}) # execute() run the sql query on the connected database
+        dataList = result.mappings().all()
+        print(dataList)
+   ```
+   
