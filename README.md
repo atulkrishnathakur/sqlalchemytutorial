@@ -425,7 +425,7 @@ If you fetch specific field then only then scalar() fetch first record and first
    ```
    
 # and_() 
-1. and_() function used for `and` operator
+1. and_() function used for `AND` operator
    ```
        stmt = select(CourseMaster).where(
             and_(
@@ -445,3 +445,16 @@ If you fetch specific field then only then scalar() fetch first record and first
                 )
             )
    ```
+# in_()
+1. in_() function used for `IN` operator
+   ```
+      stmt = select(CourseMaster).where(
+            CourseMaster.id.in_([1,2,3])
+            )
+   ```
+# notin_()
+```
+    stmt = select(CourseMaster).where(
+        CourseMaster.id.notin_([1,2,3])
+        ) # it create the sql query
+```
