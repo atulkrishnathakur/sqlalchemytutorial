@@ -530,3 +530,20 @@ stmt = select(CourseMaster).where(
    ```
    stmt = select(CourseMaster).order_by(CourseMaster.id.desc()) 
    ```
+
+# SUB QUERY
+```
+# 1. Inner Subquery: Get user IDs who placed an order valued over $500
+# SQL: SELECT user_id FROM orders WHERE total_amount > 500
+subq_stmt = (
+    select(Order.user_id)
+    .where(Order.total_amount > 500)
+)
+
+# 2. Outer Main Query: Fetch User records matching those IDs
+# SQL: SELECT * FROM users WHERE id IN (SELECT user_id FROM orders WHERE total_amount > 500)
+stmt = (
+    select(User)
+    .where(User.id.in_(subq_stmt))
+)
+```
