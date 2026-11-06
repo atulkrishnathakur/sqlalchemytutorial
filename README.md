@@ -547,3 +547,22 @@ stmt = (
     .where(User.id.in_(subq_stmt))
 )
 ```
+
+# INNER JOIN
+1. inner join table with `ON` clause. Here it fetch data only from User
+  ```
+  stmt = select(User).join(Order, User.id == Order.customer_id)
+  ```
+2. inner join table with `ON` clause. Here it fetch data from both table
+   ```
+   stmt = select(User, Order).join(Order, User.id == Order.customer_id)
+
+   ```
+3. inner join multiple table
+   ```
+    stmt = (
+        select(User.name, Order.id, Payment.amount)
+        .join(Order)
+        .join(Payment)
+    )
+   ```
