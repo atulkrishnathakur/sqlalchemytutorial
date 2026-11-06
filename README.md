@@ -574,3 +574,14 @@ stmt = (
         .where(Order.status == 'shipped')
     )
    ```
+
+# LEFT JOIN ( OUTER JOIN )
+1. outerjoin() used for left join
+```
+stmt = select(User, Order).outerjoin(Order, User.id == Order.customer_id)
+
+```
+2. The `isouter=True)` use for left( outer) join
+   ```
+      stmt = select(User, Order).join(Order, User.id == Order.customer_id, isouter=True)
+   ```
