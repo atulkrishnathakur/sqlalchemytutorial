@@ -729,3 +729,12 @@ from sqlalchemy.dialects.postgresql import (
 )
 
 ```
+
+# SQLAlchemy Generic Types
+1. Generic types used with any database server like MySQL, PostgreSQL, SQLite. If you change your database then you have no need to change code but SQLAlchemy Generic Types not support all features of database
+2. reference: https://docs.sqlalchemy.org/en/21/core/types.html
+
+```
+from sqlalchemy import (BigInteger,Column,PrimaryKeyConstraint,Text,String,Integer,DateTime,
+BigInteger,SmallInteger,func,UniqueConstraint,ForeignKey,Identity)
+```
