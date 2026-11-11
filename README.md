@@ -627,7 +627,7 @@ stmt = select(User, Order).outerjoin(Order, User.id == Order.customer_id)
 
 # MySQL and MariaDB Data Types
 1. As with all SQLAlchemy dialects, all UPPERCASE types that are known to be valid with MySQL are importable from the top level dialect.
-2. You can use in sqlalchemy in application. It is specially created for MySQL or MariaDB. It support MySQL or MariaDB advance features
+2. You can use in sqlalchemy in application. It is specially created for MySQL or MariaDB. It support MySQL or MariaDB advance features. It will not work if you use other database server like PostgreSQL because it is specially created for MySQL and MariaDB
 3. reference: https://docs.sqlalchemy.org/en/21/dialects/mysql.html#mysql-data-types
 4. reference: https://docs.sqlalchemy.org/en/21/dialects/
      
@@ -672,7 +672,7 @@ stmt = select(User, Order).outerjoin(Order, User.id == Order.customer_id)
 
 # PostgreSQL Data Types
 1. As with all SQLAlchemy dialects, all UPPERCASE types that are known to be valid with PostgreSQL are importable from the top level dialect
-2. You can use in sqlalchemy in application. It is specially created for PostgreSQL. It support PostgreSQL advance features
+2. You can use in sqlalchemy in application. It is specially created for PostgreSQL. It support PostgreSQL advance features. It will not work if you use other database server like MySQL because it is specially created for PostgreSQL
 3. Reference: https://docs.sqlalchemy.org/en/21/dialects/postgresql.html#postgresql-data-types
 4. reference: https://docs.sqlalchemy.org/en/21/dialects/
    
