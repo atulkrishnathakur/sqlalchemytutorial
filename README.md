@@ -627,7 +627,7 @@ stmt = select(User, Order).outerjoin(Order, User.id == Order.customer_id)
 
 # MySQL and MariaDB Data Types
 1. As with all SQLAlchemy dialects, all UPPERCASE types that are known to be valid with MySQL are importable from the top level dialect.
-2. You can use in sqlalchemy in application. It is specially created for MySQL or MariaDB. It support MySQL or MariaDB features
+2. You can use in sqlalchemy in application. It is specially created for MySQL or MariaDB. It support MySQL or MariaDB advance features
 3. reference: https://docs.sqlalchemy.org/en/21/dialects/mysql.html#mysql-data-types
      
 ```
@@ -669,3 +669,60 @@ stmt = select(User, Order).outerjoin(Order, User.id == Order.customer_id)
       )
 ```
 
+# PostgreSQL Data Types
+1. As with all SQLAlchemy dialects, all UPPERCASE types that are known to be valid with PostgreSQL are importable from the top level dialect
+2. You can use in sqlalchemy in application. It is specially created for PostgreSQL. It support PostgreSQL advance features
+3. Reference: https://docs.sqlalchemy.org/en/21/dialects/postgresql.html#postgresql-data-types
+```
+from sqlalchemy.dialects.postgresql import (
+    ARRAY,
+    BIGINT,
+    BIT,
+    BOOLEAN,
+    BYTEA,
+    CHAR,
+    CIDR,
+    CITEXT,
+    DATE,
+    DATEMULTIRANGE,
+    DATERANGE,
+    DOMAIN,
+    DOUBLE_PRECISION,
+    ENUM,
+    FLOAT,
+    HSTORE,
+    INET,
+    INT4MULTIRANGE,
+    INT4RANGE,
+    INT8MULTIRANGE,
+    INT8RANGE,
+    INTEGER,
+    INTERVAL,
+    JSON,
+    JSONB,
+    JSONPATH,
+    MACADDR,
+    MACADDR8,
+    MONEY,
+    NUMERIC,
+    NUMMULTIRANGE,
+    NUMRANGE,
+    OID,
+    REAL,
+    REGCLASS,
+    REGCONFIG,
+    SMALLINT,
+    TEXT,
+    TIME,
+    TIMESTAMP,
+    TSMULTIRANGE,
+    TSQUERY,
+    TSRANGE,
+    TSTZMULTIRANGE,
+    TSTZRANGE,
+    TSVECTOR,
+    UUID,
+    VARCHAR,
+)
+
+```
